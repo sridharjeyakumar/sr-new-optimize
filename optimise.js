@@ -151,10 +151,10 @@ const findCorridorBlock = (enggRequests, corridorData) => {
         let corridorFrom = parseTime(matchingCorridors[0]['From']);
         let corridorTo = parseTime(matchingCorridors[0]['To']);
 
-        // if (item.length === 1 && (parseTime(item[0]['demandTimeTo']) - parseTime(item[0]['demandTimeFrom']) > (corridorTo - corridorFrom))) {
-        //     item[0]['optimisedTimeFrom'] = item[0]['demandTimeFrom'];
-        //     item[0]['optimisedTimeTo'] = item[0]['demandTimeTo'];
-        // } else {
+         if (item.length === 1 && (parseTime(item[0]['demandTimeTo']) - parseTime(item[0]['demandTimeFrom']) > (corridorTo - corridorFrom))) {
+             item[0]['optimisedTimeFrom'] = item[0]['demandTimeFrom'];
+             item[0]['optimisedTimeTo'] = item[0]['demandTimeTo'];
+         } else {
         item.map((data) => {
 
             let demandFrom = parseTime(data['demandTimeFrom']);
@@ -175,7 +175,7 @@ const findCorridorBlock = (enggRequests, corridorData) => {
                 corridorFrom = corridorFrom + duration;
             }
         });
-        // }
+       }
     });
 
     return enggRequests.flat();
