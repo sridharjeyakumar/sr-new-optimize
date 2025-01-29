@@ -56,4 +56,487 @@ line_data = {
     "KPD-JTJ": { "UP line": 0, "Down line": 1 },
 }
 
-module.exports = { section_data, line_data };
+road_line_data = {
+
+    "MAS-GDR": {
+        "KOK-TNP": {
+            "UP slow": 0,
+            "UP fast": 0,
+            "Down Slow": 1,
+            "Down Fast": 1,
+        },
+        "TVT-ENR": {
+            "UP slow": 0,
+            "UP fast": 0,
+            "Down Slow": 1,
+            "Down Fast": 1,
+        },
+        "MMC-YD": {
+            "UP slow": 0,
+            "UP fast": 0,
+            "Down Slow": 1,
+            "Down Fast": 1
+        },
+        "BBQ-YD": {
+            "UP slow": 0,
+            "UP fast": 0,
+            "Down Slow": 1,
+            "Down Fast": 1
+        },
+        "KOK-YD": {
+            "UP slow": 0,
+            "UP fast": 0,
+            "Down Slow": 1,
+            "Down Fast": 1
+        },
+        "TNP-YD": {
+            "UP slow": 0,
+            "UP fast": 0,
+            "Down Slow": 1,
+            "Down Fast": 1,
+        },
+        "TVT-YD": {
+            "UP slow": 0,
+            "UP fast": 0,
+            "Down Slow": 1,
+            "Down Fast": 1,
+        },
+        "ENR-YD": {
+            "UP slow": 0,
+            "UP fast": 0,
+            "Down Slow": 1,
+            "Down Fast": 1,
+        },
+        "AIP-YD": {
+            "UP slow": 0,
+            "UP fast": 0,
+            "Down Slow": 1,
+            "Down Fast": 1,
+        },
+        "AIPP-YD": {
+            "UP slow": 0,
+            "UP fast": 0,
+            "Down Slow": 1,
+            "Down Fast": 1,
+        },
+        "MJR-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "PON-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "KVP-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "GPD-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "ELR-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "AKM-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "TAD-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "SPE-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "PEL-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "DVR-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "NYP-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "PYA-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "ODR-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "GDR-YD": {
+            "UP line": 0,
+            "Down line": 1
+        }
+    },
+
+    "AJJ-RU": {
+        "AJJ-YD": {
+            "UP": 0,
+            "DN": 1
+        },
+        "MLPM-YD": {
+            "UP": 0,
+            "DN": 1
+        },
+        "AJJN-YD": {
+            "UP": 0,
+            "DN": 1
+        },
+        "TRT-YD": {
+            "UP": 0,
+            "DN": 1
+        },
+        "POI-YD": {
+            "UP": 0,
+            "DN": 1
+        },
+        "NG-YD": {
+            "UP": 0,
+            "DN": 1
+        },
+        "VAG-YD": {
+            "UP": 0,
+            "DN": 1
+        },
+        "PUT-YD": {
+            "UP": 0,
+            "DN": 1
+        },
+        "TDK-YD": {
+            "UP": 0,
+            "DN": 1
+        },
+        "PUDI-YD": {
+            "UP": 0,
+            "DN": 1
+        },
+        "RU-YD": {
+            "UP": 0,
+            "DN": 1
+        }
+    },
+    "MAS-AJJ": {
+        "MAS-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        },
+        "BBQ-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        },
+        "MMCC-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        },
+        "VPY-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        },
+        "VLK-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        },
+        "ABU-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        },
+        "AVD-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        },
+        "PAB-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        },
+        "TI-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        },
+        "TRL-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        },
+        "KBT-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        },
+        "TO-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        },
+        "AJJ-YD": {
+            "Up slow": 0,
+            "Down slow": 1,
+            "Up fast": 0,
+            "Down fast": 1
+        }
+    },
+    "MSB-VM": {
+        "MS-YD": {
+            "Up sub urban": 0,
+            "Down Sub urban": 1,
+            "B line": 2,
+            "A line": 2
+        },
+        "MKK-YD": {
+            "Up sub urban": 0,
+            "Down Sub urban": 1,
+            "B line": 2,
+            "A line": 2
+        },
+        "MBM-YD": {
+            "Up sub urban": 0,
+            "Down Sub urban": 1,
+            "B line": 2,
+            "A line": 2
+        },
+        "STM-YD": {
+            "Up sub urban": 0,
+            "Down Sub urban": 1,
+            "B line": 2,
+            "A line": 2
+        },
+        "PV-YD": {
+            "Up sub urban": 0,
+            "Down Sub urban": 1,
+            "B line": 2,
+            "A line": 2
+        },
+        "TBM-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "VDR-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "GI-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "CTM-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "SKL-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "CGL-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "OV-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "KGZ-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "MMK-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "MLMR-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "TZD-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "OLA-YD": {
+            "UP line": 0,
+            "Down line": 1,
+        },
+        "TMV-YD": {
+            "UP line": 0,
+            "Down line": 1,
+        },
+        "MTL-YD": {
+            "UP line": 0,
+            "Down line": 1,
+        },
+        "PEI-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "VVN-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "MYP-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "VM-YD": {
+            "UP line": 0,
+            "Down line": 1
+        }
+    },
+    "KPD-JTJ": {
+        "KPD-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "LTI-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "KVN-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "GYM-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "VLT-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "MPI-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "PCKM-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "AB-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "VGM-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "VN-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "KDY-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "JTJ-YD": {
+            "UP line": 0,
+            "Down line": 1
+        }
+    },
+    "AJJ-CGL": {
+        "CGL-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "PALR-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "WJ-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "CJ(O)-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "CJ(E)-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "TMLP-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "MLPM-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "AJJ-YD": {
+            "UP line": 0,
+            "Down line": 1
+        }
+    },
+    "AJJ-KPD": {
+        "AJJ-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "MLPM-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "CTRE-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "MDVE-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "SHU-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "TUG-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "WJR-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "MCN-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "THL-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "SVUR-YD": {
+            "UP line": 0,
+            "Down line": 1
+        },
+        "KPD-YD": {
+            "UP line": 0,
+            "Down line": 1
+        }
+    }
+}
+
+module.exports = { section_data, line_data, road_line_data };
