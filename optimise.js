@@ -355,178 +355,227 @@ function filterRequested(occupiedIntervals, shadowIntervals) {
 
 
 function findShadowNon(groupedNonEnggRequests, engOptiData, corridorData, section_data, line_data) {
-    let nonEnggOptii = [];
-    // groupedNonEnggRequests = groupedNonEnggRequests.reverse();
+    try {
+        let nonEnggOptii = [];
+        // groupedNonEnggRequests = groupedNonEnggRequests.reverse();
 
-    for (let nonEngiIndex = 0; nonEngiIndex < groupedNonEnggRequests.length; nonEngiIndex++) {
-        const item = groupedNonEnggRequests[nonEngiIndex];
-        // let matchingCorridors = corridorData.filter(corridor => {
+        for (let nonEngiIndex = 0; nonEngiIndex < groupedNonEnggRequests.length; nonEngiIndex++) {
+            const item = groupedNonEnggRequests[nonEngiIndex];
+            // let matchingCorridors = corridorData.filter(corridor => {
 
-        //     item[0]['missionBlock'].trim() === corridor['Section/ station'].trim() &&
-        //         item[0]['selectedLine'].trim() === corridor['Line'].trim()
-        // });
+            //     item[0]['missionBlock'].trim() === corridor['Section/ station'].trim() &&
+            //         item[0]['selectedLine'].trim() === corridor['Line'].trim()
+            // });
 
-        let matchingCorridors = corridorData.filter(corridor => {
-            if (item[0]['otherLinesAffected'] && item[0]['otherLinesAffected'].trim() !== '') {
-                let selectedLine = item[0]['selectedLine'].trim().toLowerCase();
-                let otherLinesAffected = item[0]['otherLinesAffected']?.trim().toLowerCase();
-                let missionBlock = item[0]['missionBlock'].trim().toLowerCase();
+            let matchingCorridors = corridorData.filter(corridor => {
+                if (item[0]['otherLinesAffected'] && item[0]['otherLinesAffected'].trim() !== '') {
+                    let selectedLine = item[0]['selectedLine'].trim().toLowerCase();
+                    let otherLinesAffected = item[0]['otherLinesAffected']?.trim().toLowerCase();
+                    let missionBlock = item[0]['missionBlock'].trim().toLowerCase();
 
-                let [firstLine, secondLine] = [selectedLine, otherLinesAffected].sort();
-                return (
-                    missionBlock === corridor['Section/ station'].trim().toLowerCase() &&
-                    firstLine === corridor['Line'].trim().toLowerCase() &&
-                    secondLine === corridor['Other Line Affected'].trim().toLowerCase()
-                );
-            } else {
+                    let [firstLine, secondLine] = [selectedLine, otherLinesAffected].sort();
 
-                return (
-                    item[0]['missionBlock'].trim().toLowerCase() === corridor['Section/ station'].trim().toLowerCase() &&
-                    item[0]['selectedLine'].trim().toLowerCase() === corridor['Line'].trim().toLowerCase() &&
-                    'NULL' === corridor['Other Line Affected']
-                );
-            }
-        });
-
-        // if (item[0]['requestId'] === '20250129-000745-0') {
-        //     console.log(matchingCorridors, item[0])
-        // }
-
-        let corridorTotalTime = 0;
-        if (matchingCorridors.length !== 0) {
-            corridorTotalTime = calculateTotalDuration(matchingCorridors[0]['From'], matchingCorridors[0]['To']);
-        } else {
-            matchingCorridors = [{
-                '': '',
-                From: '00:00',
-                To: '03:00',
-                Duration: '03:00'
-            }]
-            corridorTotalTime = 3
-        }
-        try {
-            if (item.length !== 0) {
-                const lineBlockData = line_data[item[0].selectedSection][item[0].selectedLine]
-                const filteredData = engOptiData.filter(data =>
-                    data.missionBlock === item[0].missionBlock &&
-                    data.date === item[0].date &&
-                    data.selectedLine === item[0].selectedLine
-                ).map(data => ({
-                    optimisedTimeFrom: data.optimisedTimeFrom,
-                    optimisedTimeTo: data.optimisedTimeTo
-                }));
-
-                const occupaid = mergeIntervals(filteredData);
-
-                let sectionDatAfterFilter = [];
-                if (lineBlockData === 0) {
-                    sectionDatAfterFilter = getArrayBeforeSearch(section_data[item[0].selectedSection]["section"], item[0].missionBlock)
-                    // sectionDatAfterFilter = getArrayAfterSearch(section_data[item[0].selectedSection]["section"], item[0].missionBlock)
-                } else if (lineBlockData === 1) {
-                    // sectionDatAfterFilter = getArrayBeforeSearch(section_data[item[0].selectedSection]["section"], item[0].missionBlock)
-                    sectionDatAfterFilter = getArrayAfterSearch(section_data[item[0].selectedSection]["section"], item[0].missionBlock)
+                    return (
+                        missionBlock === corridor['Section/ station'].trim().toLowerCase() &&
+                        firstLine === corridor['Line'].trim().toLowerCase() &&
+                        secondLine === corridor['Other Line Affected'].trim().toLowerCase()
+                    );
                 } else {
-                    sectionDatAfterFilter = getArrayBeforeAndAfter(section_data[item[0].selectedSection]["section"], item[0].missionBlock)
+
+                    return (
+                        item[0]['missionBlock'].trim().toLowerCase() === corridor['Section/ station'].trim().toLowerCase() &&
+                        item[0]['selectedLine'].trim().toLowerCase() === corridor['Line'].trim().toLowerCase() &&
+                        'NULL' === corridor['Other Line Affected']
+                    );
                 }
-                let shadowBlocks = []
-                sectionDatAfterFilter.map(sData => {
+            });
+
+
+
+            let corridorTotalTime = 0;
+            if (matchingCorridors.length !== 0) {
+                corridorTotalTime = calculateTotalDuration(matchingCorridors[0]['From'], matchingCorridors[0]['To']);
+            } else {
+                matchingCorridors = [{
+                    '': '',
+                    From: '00:00',
+                    To: '03:00',
+                    Duration: '03:00'
+                }]
+                corridorTotalTime = 3
+            }
+            try {
+                if (item.length !== 0) {
+                    const lineBlockData = line_data[item[0].selectedSection][item[0].selectedLine]
                     const filteredData = engOptiData.filter(data =>
-                        data.missionBlock === sData &&
+                        data.missionBlock === item[0].missionBlock &&
                         data.date === item[0].date &&
                         data.selectedLine === item[0].selectedLine
                     ).map(data => ({
                         optimisedTimeFrom: data.optimisedTimeFrom,
                         optimisedTimeTo: data.optimisedTimeTo
                     }));
-                    const AlreadyTakenIntval = mergeIntervals(filteredData);
-                    AlreadyTakenIntval.length !== 0 && shadowBlocks.push(AlreadyTakenIntval[0])
-                })
+
+                    const occupaid = mergeIntervals(filteredData);
+
+                    let sectionDatAfterFilter = [];
+                    if (lineBlockData === 0) {
+                        sectionDatAfterFilter = getArrayBeforeSearch(section_data[item[0].selectedSection]["section"], item[0].missionBlock)
+                        // sectionDatAfterFilter = getArrayAfterSearch(section_data[item[0].selectedSection]["section"], item[0].missionBlock)
+                    } else if (lineBlockData === 1) {
+                        // sectionDatAfterFilter = getArrayBeforeSearch(section_data[item[0].selectedSection]["section"], item[0].missionBlock)
+                        sectionDatAfterFilter = getArrayAfterSearch(section_data[item[0].selectedSection]["section"], item[0].missionBlock)
+                    } else {
+                        sectionDatAfterFilter = getArrayBeforeAndAfter(section_data[item[0].selectedSection]["section"], item[0].missionBlock)
+                    }
+                    let shadowBlocks = []
+                    sectionDatAfterFilter.map(sData => {
+                        const filteredData = engOptiData.filter(data =>
+                            data.missionBlock === sData &&
+                            data.date === item[0].date &&
+                            data.selectedLine === item[0].selectedLine
+                        ).map(data => ({
+                            optimisedTimeFrom: data.optimisedTimeFrom,
+                            optimisedTimeTo: data.optimisedTimeTo
+                        }));
+                        const AlreadyTakenIntval = mergeIntervals(filteredData);
+                        AlreadyTakenIntval.length !== 0 && shadowBlocks.push(AlreadyTakenIntval[0])
+                    })
 
 
-                const occupaidParsed = occupaid.map(occupaidData => ({
+                    const occupaidParsed = occupaid.map(occupaidData => ({
 
-                    optimisedTimeFrom: occupaidData.optimisedTimeFrom,
-                    optimisedTimeTo: occupaidData.optimisedTimeTo
-                })).sort((a, b) => a.optimisedTimeFrom - b.optimisedTimeFrom);
+                        optimisedTimeFrom: occupaidData.optimisedTimeFrom,
+                        optimisedTimeTo: occupaidData.optimisedTimeTo
+                    })).sort((a, b) => a.optimisedTimeFrom - b.optimisedTimeFrom);
 
-                const shadowBlocksParsed = shadowBlocks.map(shadowBlk => ({
-                    optimisedTimeFrom: shadowBlk.optimisedTimeFrom,
-                    optimisedTimeTo: shadowBlk.optimisedTimeTo
-                })).sort((a, b) => a.optimisedTimeFrom - b.optimisedTimeFrom);
+                    const shadowBlocksParsed = shadowBlocks.map(shadowBlk => ({
+                        optimisedTimeFrom: shadowBlk.optimisedTimeFrom,
+                        optimisedTimeTo: shadowBlk.optimisedTimeTo
+                    })).sort((a, b) => a.optimisedTimeFrom - b.optimisedTimeFrom);
 
-                const updatedSb = filterRequested(occupaidParsed, shadowBlocksParsed).sort((a, b) => parseTime(b.optimisedTimeFrom) - parseTime(a.optimisedTimeFrom));;
-                const updatedCb = filterRequested(occupaidParsed, [{ 'optimisedTimeFrom': matchingCorridors[0].From, 'optimisedTimeTo': matchingCorridors[0].To }]);
+                    const updatedSb = filterRequested(occupaidParsed, shadowBlocksParsed).sort((a, b) => parseTime(b.optimisedTimeFrom) - parseTime(a.optimisedTimeFrom));;
+                    const updatedCb = filterRequested(occupaidParsed, [{ 'optimisedTimeFrom': matchingCorridors[0].From, 'optimisedTimeTo': matchingCorridors[0].To }]);
 
-                let corrDuration;
-                if (parseTime(matchingCorridors[0].From) > parseTime(matchingCorridors[0].To)) {
-                    corrDuration = (parseTime(matchingCorridors[0].To) + 24 * 60 - parseTime(matchingCorridors[0].From)) / 60;
-                } else {
-                    corrDuration = (parseTime(matchingCorridors[0].To) - parseTime(matchingCorridors[0].From)) / 60;
-                }
+                    let corrDuration;
+                    if (parseTime(matchingCorridors[0].From) > parseTime(matchingCorridors[0].To)) {
+                        corrDuration = (parseTime(matchingCorridors[0].To) + 24 * 60 - parseTime(matchingCorridors[0].From)) / 60;
+                    } else {
+                        corrDuration = (parseTime(matchingCorridors[0].To) - parseTime(matchingCorridors[0].From)) / 60;
+                    }
 
-                try {
-                    if (updatedSb.length !== 0 && updatedCb.length !== 0) {
+                    try {
+                        if (updatedSb.length !== 0 && updatedCb.length !== 0) {
 
-                        let updatedSbFromGlob = 0;
-                        let updatedSbPrevDur = 0;
-                        let updatedCbFromGlob = 0;
-                        for (let index = item.length - 1; index >= 0; index--) {
-                            const row = item[index];
-                            const rowFrom = row.demandTimeFrom
-                            const rowTo = row.demandTimeTo
+                            let updatedSbFromGlob = 0;
+                            let updatedSbPrevDur = 0;
+                            let updatedCbFromGlob = 0;
+                            for (let index = item.length - 1; index >= 0; index--) {
+                                const row = item[index];
+                                const rowFrom = row.demandTimeFrom
+                                const rowTo = row.demandTimeTo
 
-                            if (row['optimisedTimeFrom']) {
-                                continue;
+                                if (row['optimisedTimeFrom']) {
+                                    continue;
+                                }
+
+                                // const rowDuration = (parseTime(rowTo) - parseTime(rowFrom)) / 60;
+
+
+                                let rowDuration = (parseTime(rowFrom) > parseTime(rowTo)) ? (((parseTime(rowTo) + (24 * 60)) - parseTime(rowFrom)) / 60) : ((parseTime(rowTo) - parseTime(rowFrom)) / 60);
+                                if (rowDuration > 3) {
+                                    rowDuration = 3;
+                                }
+                                for (let cbIndex = 0; cbIndex < updatedCb.length; cbIndex++) {
+                                    const cb = updatedCb[cbIndex];
+                                    const AdjustDataFromTo = adjustTimeRange(cb.optimisedTimeFrom, cb.optimisedTimeTo);
+                                    let updatedCbFrom = updatedCbFromGlob !== 0 ? updatedCbFromGlob : AdjustDataFromTo.updatedFrom;
+                                    const updatedCbTo = AdjustDataFromTo.updatedTo;
+                                    const updatedCbDuration = (updatedCbTo - updatedCbFrom) / 60;
+
+                                    for (let sdIndex = updatedSb.length - 1; sdIndex >= 0; sdIndex--) {
+                                        const sb = updatedSb[sdIndex];
+                                        const AdjustDataFromTo = adjustTimeRange(sb.optimisedTimeFrom, sb.optimisedTimeTo);
+                                        const sbDuration = calculateTotalDuration(sb.optimisedTimeFrom, sb.optimisedTimeTo);
+
+                                        const updatedSbFrom = updatedSbFromGlob !== 0 && updatedSbPrevDur > sbDuration ? updatedSbFromGlob : AdjustDataFromTo.updatedFrom;
+                                        const updatedSbTo = AdjustDataFromTo.updatedTo;
+                                        const updatedSbDuration = (updatedSbTo - updatedSbFrom) / 60;
+
+                                        // console.log(rowFrom, rowTo, rowDuration, updatedSbDuration, updatedCbDuration, corrDuration, 'aaa')
+                                        if (rowDuration <= updatedSbDuration) {
+                                            row['optimisedTimeFrom'] = formatTime(updatedSbFrom);
+                                            row['optimisedTimeTo'] = formatTime(updatedSbFrom + (rowDuration * 60));
+                                            updatedSbFromGlob = updatedSbFrom + (rowDuration * 60);
+                                            updatedSbPrevDur = sbDuration - rowDuration;
+                                            // console.log(row, updatedSbPrevDur, sbDuration, rowDuration, updatedSbDuration, updatedSbFrom, updatedSbTo, '----------')
+                                            if (updatedSbFrom >= updatedSbTo) {
+                                                updatedSb.splice(sdIndex, 1);
+                                            }
+                                            nonEnggOptii.push(...item.splice(index, 1));
+                                        }
+                                        else if (rowDuration <= updatedCbDuration) {
+                                            row['optimisedTimeFrom'] = formatTime(updatedCbFrom);
+                                            row['optimisedTimeTo'] = formatTime(updatedCbFrom + (rowDuration * 60));
+                                            updatedCbFromGlob = updatedCbFrom + (rowDuration * 60);
+                                            if (updatedCbFrom >= updatedCbTo) {
+                                                updatedCb.splice(cbIndex, 1);
+                                            }
+                                            nonEnggOptii.push(...item.splice(index, 1));
+                                        } else if (rowDuration <= corrDuration) {
+                                            row['push'] = row['push'] ? row['push'] + 1 : 1;
+                                            row['date'] = nextDay(row['date']);
+                                            if (groupedNonEnggRequests[nonEngiIndex + 1] && groupedNonEnggRequests[nonEngiIndex + 1][0] && groupedNonEnggRequests[nonEngiIndex + 1][0]['date'] === row['date']) {
+
+                                                groupedNonEnggRequests[nonEngiIndex + 1].push(row);
+                                            } else {
+
+                                                groupedNonEnggRequests.splice(nonEngiIndex + 1, 0, [row]);
+                                            }
+                                        } else {
+                                            row['optimisedTimeFrom'] = "Wrong Request";
+                                            row['optimisedTimeTo'] = "Wrong Request";
+                                            nonEnggOptii.push(...item.splice(index, 1));
+                                        }
+                                    }
+                                }
                             }
+                        } else if (updatedSb.length !== 0 && updatedCb.length === 0) {
+                            let updatedSbFromGlob = 0
+                            for (let index = item.length - 1; index >= 0; index--) {
+                                const row = item[index];
+                                const rowFrom = row.demandTimeFrom
+                                const rowTo = row.demandTimeTo
 
-                            // const rowDuration = (parseTime(rowTo) - parseTime(rowFrom)) / 60;
+                                if (row['optimisedTimeFrom']) {
+                                    continue;
+                                }
 
-
-                            let rowDuration = (parseTime(rowFrom) > parseTime(rowTo)) ? (((parseTime(rowTo) + (24 * 60)) - parseTime(rowFrom)) / 60) : ((parseTime(rowTo) - parseTime(rowFrom)) / 60);
-                            if (rowDuration > 3) {
-                                rowDuration = 3;
-                            }
-                            for (let cbIndex = 0; cbIndex < updatedCb.length; cbIndex++) {
-                                const cb = updatedCb[cbIndex];
-                                const AdjustDataFromTo = adjustTimeRange(cb.optimisedTimeFrom, cb.optimisedTimeTo);
-                                let updatedCbFrom = updatedCbFromGlob !== 0 ? updatedCbFromGlob : AdjustDataFromTo.updatedFrom;
-                                const updatedCbTo = AdjustDataFromTo.updatedTo;
-                                const updatedCbDuration = (updatedCbTo - updatedCbFrom) / 60;
-
+                                // const rowDuration = (parseTime(rowTo) - parseTime(rowFrom)) / 60;
+                                let rowDuration = (parseTime(rowFrom) > parseTime(rowTo)) ? ((((parseTime(rowTo) + (24 * 60)) - parseTime(rowFrom)) / 60) + 1) : ((parseTime(rowTo) - parseTime(rowFrom)) / 60);
+                                if (rowDuration > 3) {
+                                    rowDuration = 3;
+                                }
                                 for (let sdIndex = updatedSb.length - 1; sdIndex >= 0; sdIndex--) {
                                     const sb = updatedSb[sdIndex];
                                     const AdjustDataFromTo = adjustTimeRange(sb.optimisedTimeFrom, sb.optimisedTimeTo);
-                                    const sbDuration = calculateTotalDuration(sb.optimisedTimeFrom, sb.optimisedTimeTo);
-
-                                    const updatedSbFrom = updatedSbFromGlob !== 0 && updatedSbPrevDur > sbDuration ? updatedSbFromGlob : AdjustDataFromTo.updatedFrom;
+                                    const updatedSbFrom = updatedSbFromGlob !== 0 ? updatedSbFromGlob : AdjustDataFromTo.updatedFrom;
                                     const updatedSbTo = AdjustDataFromTo.updatedTo;
                                     const updatedSbDuration = (updatedSbTo - updatedSbFrom) / 60;
 
-                                    // console.log(rowFrom, rowTo, rowDuration, updatedSbDuration, updatedCbDuration, corrDuration, 'aaa')
                                     if (rowDuration <= updatedSbDuration) {
                                         row['optimisedTimeFrom'] = formatTime(updatedSbFrom);
                                         row['optimisedTimeTo'] = formatTime(updatedSbFrom + (rowDuration * 60));
                                         updatedSbFromGlob = updatedSbFrom + (rowDuration * 60);
-                                        updatedSbPrevDur = sbDuration - rowDuration;
-                                        // console.log(row, updatedSbPrevDur, sbDuration, rowDuration, updatedSbDuration, updatedSbFrom, updatedSbTo, '----------')
                                         if (updatedSbFrom >= updatedSbTo) {
                                             updatedSb.splice(sdIndex, 1);
                                         }
                                         nonEnggOptii.push(...item.splice(index, 1));
                                     }
-                                    else if (rowDuration <= updatedCbDuration) {
-                                        row['optimisedTimeFrom'] = formatTime(updatedCbFrom);
-                                        row['optimisedTimeTo'] = formatTime(updatedCbFrom + (rowDuration * 60));
-                                        updatedCbFromGlob = updatedCbFrom + (rowDuration * 60);
-                                        if (updatedCbFrom >= updatedCbTo) {
-                                            updatedCb.splice(cbIndex, 1);
-                                        }
-                                        nonEnggOptii.push(...item.splice(index, 1));
-                                    } else if (rowDuration <= corrDuration) {
+                                    else if (rowDuration <= corrDuration) {
                                         row['push'] = row['push'] ? row['push'] + 1 : 1;
                                         row['date'] = nextDay(row['date']);
                                         if (groupedNonEnggRequests[nonEngiIndex + 1] && groupedNonEnggRequests[nonEngiIndex + 1][0] && groupedNonEnggRequests[nonEngiIndex + 1][0]['date'] === row['date']) {
-
                                             groupedNonEnggRequests[nonEngiIndex + 1].push(row);
                                         } else {
 
@@ -539,154 +588,108 @@ function findShadowNon(groupedNonEnggRequests, engOptiData, corridorData, sectio
                                     }
                                 }
                             }
-                        }
-                    } else if (updatedSb.length !== 0 && updatedCb.length === 0) {
-                        let updatedSbFromGlob = 0
-                        for (let index = item.length - 1; index >= 0; index--) {
-                            const row = item[index];
-                            const rowFrom = row.demandTimeFrom
-                            const rowTo = row.demandTimeTo
+                        } else if (updatedSb.length === 0 && updatedCb.length !== 0) {
+                            let updatedCbFromGlob = 0
 
-                            if (row['optimisedTimeFrom']) {
-                                continue;
-                            }
+                            for (let index = item.length - 1; index >= 0; index--) {
 
-                            // const rowDuration = (parseTime(rowTo) - parseTime(rowFrom)) / 60;
-                            let rowDuration = (parseTime(rowFrom) > parseTime(rowTo)) ? ((((parseTime(rowTo) + (24 * 60)) - parseTime(rowFrom)) / 60) + 1) : ((parseTime(rowTo) - parseTime(rowFrom)) / 60);
-                            if (rowDuration > 3) {
-                                rowDuration = 3;
-                            }
-                            for (let sdIndex = updatedSb.length - 1; sdIndex >= 0; sdIndex--) {
-                                const sb = updatedSb[sdIndex];
-                                const AdjustDataFromTo = adjustTimeRange(sb.optimisedTimeFrom, sb.optimisedTimeTo);
-                                const updatedSbFrom = updatedSbFromGlob !== 0 ? updatedSbFromGlob : AdjustDataFromTo.updatedFrom;
-                                const updatedSbTo = AdjustDataFromTo.updatedTo;
-                                const updatedSbDuration = (updatedSbTo - updatedSbFrom) / 60;
+                                const row = item[index];
+                                const rowFrom = row.demandTimeFrom
+                                const rowTo = row.demandTimeTo
 
-                                if (rowDuration <= updatedSbDuration) {
-                                    row['optimisedTimeFrom'] = formatTime(updatedSbFrom);
-                                    row['optimisedTimeTo'] = formatTime(updatedSbFrom + (rowDuration * 60));
-                                    updatedSbFromGlob = updatedSbFrom + (rowDuration * 60);
-                                    if (updatedSbFrom >= updatedSbTo) {
-                                        updatedSb.splice(sdIndex, 1);
-                                    }
-                                    nonEnggOptii.push(...item.splice(index, 1));
+                                if (row['optimisedTimeFrom']) {
+                                    continue;
                                 }
-                                else if (rowDuration <= corrDuration) {
+
+                                let rowDuration = (parseTime(rowFrom) > parseTime(rowTo)) ? ((((parseTime(rowTo) + (24 * 60)) - parseTime(rowFrom)) / 60)) : ((parseTime(rowTo) - parseTime(rowFrom)) / 60);
+                                if (rowDuration > 3) {
+                                    rowDuration = 3;
+                                }
+                                if (updatedCb.length !== 0) {
+                                    for (let cbIndex = updatedCb.length - 1; cbIndex >= 0; cbIndex--) {
+                                        const cb = updatedCb[cbIndex];
+                                        const AdjustDataFromTo = adjustTimeRange(cb.optimisedTimeFrom, cb.optimisedTimeTo);
+                                        let updatedCbFrom = updatedCbFromGlob !== 0 ? updatedCbFromGlob : AdjustDataFromTo.updatedFrom;
+                                        const updatedCbTo = AdjustDataFromTo.updatedTo;
+                                        const updatedCbDuration = (updatedCbTo - updatedCbFrom) / 60;
+                                        // if (row['requestId'] === '20241209-000273-0') {
+                                        //     console.log(row, '-----------', rowDuration, updatedCbDuration, corrDuration, parseTime(rowTo), parseTime(rowFrom), (parseTime(rowTo) + (24 * 60)))
+                                        // }
+                                        if (rowDuration <= updatedCbDuration) {
+                                            row['optimisedTimeFrom'] = formatTime(updatedCbFrom);
+                                            row['optimisedTimeTo'] = formatTime(updatedCbFrom + (rowDuration * 60));
+                                            updatedCbFromGlob = updatedCbFrom + (rowDuration * 60);
+
+                                            if (updatedCbFrom >= updatedCbTo) {
+                                                updatedCb.splice(cbIndex, 1);
+                                            }
+                                            nonEnggOptii.push(...item.splice(index, 1));
+
+                                        } else if (rowDuration <= corrDuration) {
+                                            try {
+                                                row['push'] = row['push'] ? row['push'] + 1 : 1;
+                                                row['date'] = nextDay(row['date']);
+                                                if (groupedNonEnggRequests[nonEngiIndex + 1] && groupedNonEnggRequests[nonEngiIndex + 1][0] && groupedNonEnggRequests[nonEngiIndex + 1][0]['date'] === row['date']) {
+                                                    groupedNonEnggRequests[nonEngiIndex + 1].push(row);
+                                                } else {
+                                                    groupedNonEnggRequests.splice(nonEngiIndex + 1, 0, [row]);
+                                                }
+                                            } catch (errr) {
+                                                console.log("inside", errr)
+                                            }
+                                        } else {
+                                            row['optimisedTimeFrom'] = "Wrong Request";
+                                            row['optimisedTimeTo'] = "Wrong Request";
+                                            nonEnggOptii.push(...item.splice(index, 1));
+                                        }
+                                    }
+                                } else {
                                     row['push'] = row['push'] ? row['push'] + 1 : 1;
                                     row['date'] = nextDay(row['date']);
                                     if (groupedNonEnggRequests[nonEngiIndex + 1] && groupedNonEnggRequests[nonEngiIndex + 1][0] && groupedNonEnggRequests[nonEngiIndex + 1][0]['date'] === row['date']) {
+
                                         groupedNonEnggRequests[nonEngiIndex + 1].push(row);
                                     } else {
 
                                         groupedNonEnggRequests.splice(nonEngiIndex + 1, 0, [row]);
                                     }
-                                } else {
-                                    row['optimisedTimeFrom'] = "Wrong Request";
-                                    row['optimisedTimeTo'] = "Wrong Request";
-                                    nonEnggOptii.push(...item.splice(index, 1));
                                 }
                             }
-                        }
-                    } else if (updatedSb.length === 0 && updatedCb.length !== 0) {
-                        let updatedCbFromGlob = 0
+                        } else {
+                            // console.log('67676', groupedNonEnggRequests)
+                            for (let index = item.length - 1; index >= 0; index--) {
+                                const row = item[index];
+                                const rowFrom = row.demandTimeFrom
+                                const rowTo = row.demandTimeTo
 
-                        for (let index = item.length - 1; index >= 0; index--) {
-
-                            const row = item[index];
-                            const rowFrom = row.demandTimeFrom
-                            const rowTo = row.demandTimeTo
-
-                            if (row['optimisedTimeFrom']) {
-                                continue;
-                            }
-
-                            let rowDuration = (parseTime(rowFrom) > parseTime(rowTo)) ? ((((parseTime(rowTo) + (24 * 60)) - parseTime(rowFrom)) / 60)) : ((parseTime(rowTo) - parseTime(rowFrom)) / 60);
-                            if (rowDuration > 3) {
-                                rowDuration = 3;
-                            }
-                            if (updatedCb.length !== 0) {
-                                for (let cbIndex = updatedCb.length - 1; cbIndex >= 0; cbIndex--) {
-                                    const cb = updatedCb[cbIndex];
-                                    const AdjustDataFromTo = adjustTimeRange(cb.optimisedTimeFrom, cb.optimisedTimeTo);
-                                    let updatedCbFrom = updatedCbFromGlob !== 0 ? updatedCbFromGlob : AdjustDataFromTo.updatedFrom;
-                                    const updatedCbTo = AdjustDataFromTo.updatedTo;
-                                    const updatedCbDuration = (updatedCbTo - updatedCbFrom) / 60;
-                                    // if (row['requestId'] === '20241209-000273-0') {
-                                    //     console.log(row, '-----------', rowDuration, updatedCbDuration, corrDuration, parseTime(rowTo), parseTime(rowFrom), (parseTime(rowTo) + (24 * 60)))
-                                    // }
-                                    if (rowDuration <= updatedCbDuration) {
-                                        row['optimisedTimeFrom'] = formatTime(updatedCbFrom);
-                                        row['optimisedTimeTo'] = formatTime(updatedCbFrom + (rowDuration * 60));
-                                        updatedCbFromGlob = updatedCbFrom + (rowDuration * 60);
-
-                                        if (updatedCbFrom >= updatedCbTo) {
-                                            updatedCb.splice(cbIndex, 1);
-                                        }
-                                        nonEnggOptii.push(...item.splice(index, 1));
-
-                                    } else if (rowDuration <= corrDuration) {
-                                        try {
-                                            row['push'] = row['push'] ? row['push'] + 1 : 1;
-                                            row['date'] = nextDay(row['date']);
-                                            if (groupedNonEnggRequests[nonEngiIndex + 1] && groupedNonEnggRequests[nonEngiIndex + 1][0] && groupedNonEnggRequests[nonEngiIndex + 1][0]['date'] === row['date']) {
-                                                groupedNonEnggRequests[nonEngiIndex + 1].push(row);
-                                            } else {
-                                                groupedNonEnggRequests.splice(nonEngiIndex + 1, 0, [row]);
-                                            }
-                                        } catch (errr) {
-                                            console.log("inside", errr)
-                                        }
-                                    } else {
-                                        row['optimisedTimeFrom'] = "Wrong Request";
-                                        row['optimisedTimeTo'] = "Wrong Request";
-                                        nonEnggOptii.push(...item.splice(index, 1));
-                                    }
+                                if (row['optimisedTimeFrom']) {
+                                    continue;
                                 }
-                            } else {
                                 row['push'] = row['push'] ? row['push'] + 1 : 1;
                                 row['date'] = nextDay(row['date']);
-                                if (groupedNonEnggRequests[nonEngiIndex + 1] && groupedNonEnggRequests[nonEngiIndex + 1][0] && groupedNonEnggRequests[nonEngiIndex + 1][0]['date'] === row['date']) {
 
+                                // console.log('111111111', row, groupedNonEnggRequests[nonEngiIndex + 1], row['date'])
+                                if (groupedNonEnggRequests[nonEngiIndex + 1] && groupedNonEnggRequests[nonEngiIndex + 1][0] && groupedNonEnggRequests[nonEngiIndex + 1][0]['date'] === row['date']) {
                                     groupedNonEnggRequests[nonEngiIndex + 1].push(row);
                                 } else {
-
                                     groupedNonEnggRequests.splice(nonEngiIndex + 1, 0, [row]);
+
                                 }
+
                             }
                         }
-                    } else {
-                        // console.log('67676', groupedNonEnggRequests)
-                        for (let index = item.length - 1; index >= 0; index--) {
-                            const row = item[index];
-                            const rowFrom = row.demandTimeFrom
-                            const rowTo = row.demandTimeTo
-
-                            if (row['optimisedTimeFrom']) {
-                                continue;
-                            }
-                            row['push'] = row['push'] ? row['push'] + 1 : 1;
-                            row['date'] = nextDay(row['date']);
-
-                            // console.log('111111111', row, groupedNonEnggRequests[nonEngiIndex + 1], row['date'])
-                            if (groupedNonEnggRequests[nonEngiIndex + 1] && groupedNonEnggRequests[nonEngiIndex + 1][0] && groupedNonEnggRequests[nonEngiIndex + 1][0]['date'] === row['date']) {
-                                groupedNonEnggRequests[nonEngiIndex + 1].push(row);
-                            } else {
-                                groupedNonEnggRequests.splice(nonEngiIndex + 1, 0, [row]);
-
-                            }
-
-                        }
+                    } catch (err) {
+                        console.log("error----", err)
                     }
-                } catch (err) {
-                    console.log("error----", err)
                 }
+            } catch (err) {
+                console.log("innn", err)
             }
-        } catch (err) {
-            console.log("innn", err)
         }
+        return nonEnggOptii;
+    } catch (err) {
+        console.log(err)
     }
-    return nonEnggOptii;
 }
 
 
@@ -768,6 +771,7 @@ const optii = async (requestData, corridorData) => {
         const nonEnggRequests = requestData.filter(item => item.selectedDepartment !== 'ENGG');
 
         const engOptiData = engOptii(enggRequests, corridorData);
+
         const nonEngOptiData = nonEngOptii(nonEnggRequests, corridorData, engOptiData, section_data, line_data);
         const optiiData = [...engOptiData, ...nonEngOptiData];
         return optiiData;
