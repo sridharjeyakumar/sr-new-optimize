@@ -33,7 +33,7 @@ app.post('/backend/optimize', async (req, res) => {
         const corridorCsvPath = path.resolve(__dirname, 'Corridor - Final.csv');
         const corridorData = await readCsvFile(corridorCsvPath);
         const optimizedData = await optii(requestData, corridorData);
-        res.json({ 'len': optimizedData.length, optimizedData });
+        res.json({ 'len': optimizedData.length, 'req': requestData.length, optimizedData });
     } catch (error) {
         console.error('Error processing request:', error);
         res.status(500).json({ error: error.message });

@@ -96,7 +96,7 @@ const findCorridorBlock = (enggRequests, corridorData) => {
 
         for (let i = 0; i < enggRequests.length; i++) {
             let matchingCorridors = corridorData.filter(corridor => {
-                if (enggRequests[i][0]['otherLinesAffected'] && enggRequests[i][0]['otherLinesAffected'].trim() !== '') {
+                if (enggRequests[i][0]['otherLinesAffected'] && enggRequests[i][0]['otherLinesAffected'].trim() !== '' && !item[0]['otherLinesAffected'].toLowerCase().includes('rd')) {
                     let selectedLine = enggRequests[i][0]['selectedLine'].trim().toLowerCase();
                     let otherLinesAffected = enggRequests[i][0]['otherLinesAffected']?.trim().toLowerCase();
                     let missionBlock = enggRequests[i][0]['missionBlock'].trim().toLowerCase();
@@ -173,7 +173,7 @@ const findCorridorBlock = (enggRequests, corridorData) => {
 
         enggRequests.map((item) => {
             let matchingCorridors = corridorData.filter(corridor => {
-                if (item[0]['otherLinesAffected'] && item[0]['otherLinesAffected'].trim() !== '') {
+                if (item[0]['otherLinesAffected'] && item[0]['otherLinesAffected'].trim() !== '' && !item[0]['otherLinesAffected'].toLowerCase().includes('rd')) {
 
                     let selectedLine = item[0]['selectedLine'].trim().toLowerCase();
                     let otherLinesAffected = item[0]['otherLinesAffected']?.trim().toLowerCase();
@@ -368,7 +368,7 @@ function findShadowNon(groupedNonEnggRequests, engOptiData, corridorData, sectio
             // });
 
             let matchingCorridors = corridorData.filter(corridor => {
-                if (item[0]['otherLinesAffected'] && item[0]['otherLinesAffected'].trim() !== '') {
+                if (item[0]['otherLinesAffected'] && item[0]['otherLinesAffected'].trim() !== '' && !item[0]['otherLinesAffected'].toLowerCase().includes('rd')) {
                     let selectedLine = item[0]['selectedLine'].trim().toLowerCase();
                     let otherLinesAffected = item[0]['otherLinesAffected']?.trim().toLowerCase();
                     let missionBlock = item[0]['missionBlock'].trim().toLowerCase();
