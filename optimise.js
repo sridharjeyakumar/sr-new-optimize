@@ -94,82 +94,93 @@ const findCorridorBlock = (enggRequests, corridorData) => {
 
         enggRequests = sortReq(enggRequests);
 
-        for (let i = 0; i < enggRequests.length; i++) {
-            let matchingCorridors = corridorData.filter(corridor => {
-                if (enggRequests[i][0]['otherLinesAffected'] && enggRequests[i][0]['otherLinesAffected'].trim() !== '' && !item[0]['otherLinesAffected'].toLowerCase().includes('rd')) {
-                    let selectedLine = enggRequests[i][0]['selectedLine'].trim().toLowerCase();
-                    let otherLinesAffected = enggRequests[i][0]['otherLinesAffected']?.trim().toLowerCase();
-                    let missionBlock = enggRequests[i][0]['missionBlock'].trim().toLowerCase();
+        try {
+            for (let i = 0; i < enggRequests.length; i++) {
+                let matchingCorridors = corridorData.filter(corridor => {
+                    if (enggRequests[i][0]['otherLinesAffected'] && enggRequests[i][0]['otherLinesAffected'].trim() !== '' && !enggRequests[i][0]['otherLinesAffected'].toLowerCase().includes('rd')) {
+                        let selectedLine = enggRequests[i][0]['selectedLine'].trim().toLowerCase();
+                        let otherLinesAffected = enggRequests[i][0]['otherLinesAffected']?.trim().toLowerCase();
+                        let missionBlock = enggRequests[i][0]['missionBlock'].trim().toLowerCase();
 
-                    let [firstLine, secondLine] = [selectedLine, otherLinesAffected].sort();
-                    return (
-                        missionBlock === corridor['Section/ station'].trim().toLowerCase() &&
-                        firstLine === corridor['Line'].trim().toLowerCase() &&
-                        secondLine === corridor['Line'].trim().toLowerCase()
-                    );
-                } else {
-                    return (
-                        enggRequests[i][0]['missionBlock'].trim().toLowerCase() === corridor['Section/ station'].trim().toLowerCase() &&
-                        enggRequests[i][0]['selectedLine'].trim().toLowerCase() === corridor['Line'].trim().toLowerCase() &&
-                        'NULL' === corridor['Other Line Affected']
-                    );
-                }
-            });
-
-            // console.log(enggRequests[i][0], matchingCorridors)
-            let corridorTotalTime = 0;
-            if (matchingCorridors.length !== 0) {
-                corridorTotalTime = calculateTotalDuration(matchingCorridors[0]['From'], matchingCorridors[0]['To']);
-            } else {
-                matchingCorridors = [{
-                    '': '',
-                    From: '22:30',
-                    To: '01:30',
-                    Duration: '03:00'
-                }]
-                corridorTotalTime = 3
-            }
-
-            let total_requests_duration = 0;
-
-            enggRequests[i].map((e) => {
-                const rt = calculateTotalDuration(e['demandTimeFrom'], e['demandTimeTo']);
-                e['duration'] = rt;
-                total_requests_duration = total_requests_duration + rt;
-            })
-
-            enggRequests[i].sort((a, b) => {
-                if ('pushed' in a && 'pushed' in b) {
-                    return a.pushed - b.pushed;
-                } else if ('pushed' in a) {
-                    return -1;
-                } else if ('pushed' in b) {
-                    return 1;
-                } else {
-                    return b.duration - a.duration;
-                }
-            });
-
-            while (total_requests_duration > corridorTotalTime && enggRequests[i].length > 1) {
-                const leastDuration = enggRequests[i].pop();
-
-                if (leastDuration) {
-                    leastDuration['push'] = leastDuration['push'] ? leastDuration['push'] + 1 : 1;
-                    leastDuration['date'] = nextDay(leastDuration['date']);
-
-                    total_requests_duration -= leastDuration['duration'];
-                    if (enggRequests[i + 1] && enggRequests[i + 1][0]['date'] === leastDuration['date']) {
-                        enggRequests[i + 1].push(leastDuration);
+                        let [firstLine, secondLine] = [selectedLine, otherLinesAffected].sort();
+                        return (
+                            missionBlock === corridor['Section/ station'].trim().toLowerCase() &&
+                            firstLine === corridor['Line'].trim().toLowerCase() &&
+                            secondLine === corridor['Line'].trim().toLowerCase()
+                        );
                     } else {
-                        enggRequests.splice(i + 1, 0, [leastDuration]);
+                        return (
+                            enggRequests[i][0]['missionBlock'].trim().toLowerCase() === corridor['Section/ station'].trim().toLowerCase() &&
+                            enggRequests[i][0]['selectedLine'].trim().toLowerCase() === corridor['Line'].trim().toLowerCase() &&
+                            'NULL' === corridor['Other Line Affected']
+                        );
+                    }
+                });
+
+                // console.log(enggRequests[i][0], matchingCorridors)
+                let corridorTotalTime = 0;
+                if (matchingCorridors.length !== 0) {
+                    corridorTotalTime = calculateTotalDuration(matchingCorridors[0]['From'], matchingCorridors[0]['To']);
+                } else {
+                    matchingCorridors = [{
+                        '': '',
+                        From: '22:30',
+                        To: '01:30',
+                        Duration: '03:00'
+                    }]
+                    corridorTotalTime = 3
+                    // enggRequests[i].forEach(item => {
+                    //     item.comments = item.comments || [];
+                    //     item.comments.push("No matching corridor found. Using default corridor time.");
+                    // });
+                }
+
+                let total_requests_duration = 0;
+
+                enggRequests[i].map((e) => {
+                    const rt = calculateTotalDuration(e['demandTimeFrom'], e['demandTimeTo']);
+                    e['duration'] = rt;
+                    total_requests_duration = total_requests_duration + rt;
+                })
+
+                enggRequests[i].sort((a, b) => {
+                    if ('pushed' in a && 'pushed' in b) {
+                        return a.pushed - b.pushed;
+                    } else if ('pushed' in a) {
+                        return -1;
+                    } else if ('pushed' in b) {
+                        return 1;
+                    } else {
+                        return b.duration - a.duration;
+                    }
+                });
+
+                while (total_requests_duration > corridorTotalTime && enggRequests[i].length > 1) {
+                    const leastDuration = enggRequests[i].pop();
+
+                    if (leastDuration) {
+                        leastDuration['push'] = leastDuration['push'] ? leastDuration['push'] + 1 : 1;
+                        leastDuration['date'] = nextDay(leastDuration['date']);
+
+                        // leastDuration.comments = leastDuration.comments || [];
+                        // leastDuration.comments.push(`Request duration exceeds available corridor time. Pushed to next day: ${leastDuration['date']}.`);
+
+                        total_requests_duration -= leastDuration['duration'];
+                        if (enggRequests[i + 1] && enggRequests[i + 1][0]['date'] === leastDuration['date']) {
+                            enggRequests[i + 1].push(leastDuration);
+                        } else {
+                            enggRequests.splice(i + 1, 0, [leastDuration]);
+                        }
+
                     }
 
                 }
 
-            }
 
-
-        };
+            };
+        } catch (err) {
+            console.log(err)
+        }
 
         enggRequests.map((item) => {
             let matchingCorridors = corridorData.filter(corridor => {
@@ -403,6 +414,11 @@ function findShadowNon(groupedNonEnggRequests, engOptiData, corridorData, sectio
                     Duration: '03:00'
                 }]
                 corridorTotalTime = 3
+                // item.forEach(row => {
+                //     row.comments = row.comments || [];
+                //     row.comments.push("No matching corridor found. Using default corridor time.");
+                // });
+
             }
             try {
                 if (item.length !== 0) {
@@ -525,6 +541,8 @@ function findShadowNon(groupedNonEnggRequests, engOptiData, corridorData, sectio
                                         } else if (rowDuration <= corrDuration) {
                                             row['push'] = row['push'] ? row['push'] + 1 : 1;
                                             row['date'] = nextDay(row['date']);
+                                            // row.comments = row.comments || [];
+                                            // row.comments.push(`Request duration exceeds available shadow and corridor time. Pushed to next day: ${row['date']}.`);
                                             if (groupedNonEnggRequests[nonEngiIndex + 1] && groupedNonEnggRequests[nonEngiIndex + 1][0] && groupedNonEnggRequests[nonEngiIndex + 1][0]['date'] === row['date']) {
 
                                                 groupedNonEnggRequests[nonEngiIndex + 1].push(row);
@@ -771,7 +789,6 @@ const optii = async (requestData, corridorData) => {
         const nonEnggRequests = requestData.filter(item => item.selectedDepartment !== 'ENGG');
 
         const engOptiData = engOptii(enggRequests, corridorData);
-
         const nonEngOptiData = nonEngOptii(nonEnggRequests, corridorData, engOptiData, section_data, line_data);
         const optiiData = [...engOptiData, ...nonEngOptiData];
         return optiiData;
