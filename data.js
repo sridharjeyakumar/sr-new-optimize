@@ -4402,16 +4402,7 @@ section_data = {
 
   "TPJ-DG": { UP: 0, DN: 1 },
   "DG-MDU": { UP: 0, DN: 1 },
-  "DG-PLNI-POY": {
-    "API-YD": { Single: 2 },
-    "ODC-YD": { Single: 2 },
-    "CHPT-YD": { Single: 2 },
-    "PLNI Jn-YD": { Single: 2 },
-    "PPTR-YD": { Single: 2 },
-    "MVRD-YD": { Single: 2 },
-    "UDT-YD": { Single: 2 },
-    "GMGM-YD": { Single: 2 },
-  },
+  "DG-PLNI-POY": { Single:2},
   "MDU-VPT": { Single: 2 },
   "VPT-MEJ": { UP: 0, DN: 1 },
   "MEJ-TN": { UP: 0, DN: 1 },
@@ -4462,6 +4453,18 @@ section_data = {
   "TTP- AGX": { Single: 2 },
 }),
   (road_line_data = {
+
+    "DG-PLNI-POY":{
+"API-YD": {"Single": 2},
+"ODC-YD": {"Single": 2},
+"CHPT-YD": {"Single": 2},
+"PLNI Jn-YD": {"Single": 2},
+"PPTR-YD": {"Single": 2},
+"MVRD-YD": {"Single": 2},
+"UDT-YD": {"Single": 2},
+"GMGM-YD": {"Single": 2}
+
+},
     "SRR-CHTS": {
       "VTK-YD": { UP: 0, DN: 1 },
       "WKI-YD": { UP: 0, DN: 1 },
