@@ -741,7 +741,8 @@ const optii = async (requestData, corridorData) => {
             "up slow",
             "up line",
             "a line",
-            "down sub urban"
+            "down sub urban",
+            "single"
         ];
 
         requestData.forEach(item => {
