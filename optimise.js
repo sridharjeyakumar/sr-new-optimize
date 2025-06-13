@@ -742,7 +742,9 @@ const optii = async (requestData, corridorData) => {
             "up line",
             "a line",
             "down sub urban",
-            "single"
+            "single",
+            "a",
+            "b"
         ];
 
         requestData.forEach(item => {
