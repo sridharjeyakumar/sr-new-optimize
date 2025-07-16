@@ -3640,7 +3640,7 @@ section_data = {
     ],
   },
 
-  "CAN-MAJN": {
+  "CAN-MAQ-MAJN": {
     section: [
       "VAPM-KPQ",
       "KPQ-PAZ",
@@ -4870,7 +4870,7 @@ section_data = {
       "CAN-YD": { UP: 0, " DN": 1 },
     },
 
-    "CA-MAJN": {
+    "CAN-MAQ-MAJN": {
       "KPQ-YD": { UP: 0, " DN": 1 },
       "PAZ-YD": { UP: 0, " DN": 1 },
       "PAY-YD": { UP: 0, " DN": 1 },
