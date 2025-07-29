@@ -1371,14 +1371,14 @@
 //       "TP-YD",
 //     ],
 //   },
-//   "KKR-DG": {
+//   "KRR-DG": {
 //     section: [
-//       "KKR-VEI",
+//       "KRR-VEI",
 //       "VEI-PALM",
 //       "PALM-EDU",
 //       "EDU-DG",
 //       ,
-//       "KKR-YD",
+//       "KRR-YD",
 //       "VEI-YD",
 //       "PALM-YD",
 //       "EDU-YD",
@@ -1931,7 +1931,7 @@
 //   "JTJ-ED": { UP: 0, DN: 1 },
 //   "ED-PTJ": { UP: 0, DN: 1, "Single": 2 },
 //   "ED-TP": { "Single": 2 },
-//   "KKR-DG": { "Single": 2 },
+//   "KRR-DG": { "Single": 2 },
 //   "SA-VRI": { "Single": 2 },
 //   "SA-MTDM": { UP: 0, DN: 1 },
 //   "SA-KRR": { "Single": 2 },
@@ -2255,7 +2255,7 @@
 //     "MTNL-YD": { "Single": 2 },
 //   },
 //   "KRR-DG": {
-//     "KKR-YD": { "Single": 2 },
+//     "KRR-YD": { "Single": 2 },
 //     "VEI-YD": { "Single": 2 },
 //     "PALM-YD": { "Single": 2 },
 //     "EDU-YD": { "Single": 2 },
@@ -3859,14 +3859,14 @@ section_data = {
       "TP-YD",
     ],
   },
-  "KKR-DG": {
+  "KRR-DG": {
     section: [
-      "KKR-VEI",
+      "KRR-VEI",
       "VEI-PALM",
       "PALM-EDU",
       "EDU-DG",
       ,
-      "KKR-YD",
+      "KRR-YD",
       "VEI-YD",
       "PALM-YD",
       "EDU-YD",
@@ -4430,7 +4430,7 @@ section_data = {
   "JTJ-ED": { UP: 0, DN: 1 },
   "ED-PTJ": { UP: 0, DN: 1, Single: 2 },
   "ED-TP": { Single: 2 },
-  "KKR-DG": { Single: 2 },
+  "KRR-DG": { Single: 2 },
   "SA-VRI": { Single: 2 },
   "SA-MTDM": { UP: 0, DN: 1 },
   "SA-KRR": { Single: 2 },
@@ -4755,7 +4755,7 @@ section_data = {
       "MTNL-YD": { Single: 2 },
     },
     "KRR-DG": {
-      "KKR-YD": { Single: 2 },
+      "KRR-YD": { Single: 2 },
       "VEI-YD": { Single: 2 },
       "PALM-YD": { Single: 2 },
       "EDU-YD": { Single: 2 },
