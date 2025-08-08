@@ -4465,6 +4465,7 @@ section_data = {
 "GMGM-YD": {"Single": 2}
 
 },
+    
     "SRR-CHTS": {
       "VTK-YD": { UP: 0, DN: 1 },
       "WKI-YD": { UP: 0, DN: 1 },
@@ -5516,6 +5517,22 @@ section_data = {
         "Down line": 1,
       },
     },
+
+
+    "PTJ-SRR": {
+        "MDKI-YD": {"UP": 0, "DN": 1, "A": 2, "B": 2},
+        "WRA-YD": {"UP": 0, "DN": 1, "A": 2, "B": 2},
+        "CLMD-YD": {"UP": 0, "DN": 1, "A": 2, "B": 2},
+        "KJKD-YD": {"UP": 0, "DN": 1, "A": 2, "B": 2},
+        "PGT-YD": {"UP": 0, "DN": 1, "A": 2, "B": 2},
+        "PLL-YD": {"UP": 0, "DN": 1, "A": 2, "B": 2},
+        "LDY-YD": {"UP": 0, "DN": 1, "A": 2, "B": 2},
+        "OTP-YD": {"UP": 0, "DN": 1, "A": 2, "B": 2},
+        "MNUR-YD": {"UP": 0, "DN": 1, "A": 2, "B": 2},
+        "SRR A-YD": {"UP": 0, "DN": 1, "A": 2, "B": 2}
+    }
+
+    
   });
 
 module.exports = { section_data, line_data, road_line_data };
