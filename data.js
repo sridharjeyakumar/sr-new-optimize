@@ -4236,6 +4236,7 @@ section_data = {
       "ERS-YD",
       "CHTS-YD",
     ],
+  },
     "TCR-GUV": {
       section: ["TCR-PNQ", "PNQ-GUV", "TCR-YD", "PNQ-YD", "GUV-YD"],
     },
@@ -4367,16 +4368,16 @@ section_data = {
     "NCJ-CAPE": { section: ["NCJ-CAPE", "NCJ-YD", "CAPE-YD"] },
   },
 
-  "SRR-CHTS": { UP: 0, DN: 1, Single: 2 },
-  "TCR-GUV": { UP: 0, DN: 1, Single: 2 },
-  "ERS-KTYM-KYJ": { UP: 0, DN: 1, Single: 2 },
-  "ERS-ALLP-KYJ": { UP: 0, DN: 1, Single: 2 },
-  "KYJ-QLN": { UP: 0, DN: 1 },
-  "QLN-TVC": { UP: 0, DN: 1 },
-  "TVC-NCJ": { UP: 0, DN: 1, Single: 2 },
-  "NCJ-TEN": { UP: 0, DN: 1 },
-  "NCJ-CAPE": { UP: 0, DN: 1 },
-};
+//   "SRR-CHTS": { UP: 0, DN: 1, Single: 2 },
+//   "TCR-GUV": { UP: 0, DN: 1, Single: 2 },
+//   "ERS-KTYM-KYJ": { UP: 0, DN: 1, Single: 2 },
+//   "ERS-ALLP-KYJ": { UP: 0, DN: 1, Single: 2 },
+//   "KYJ-QLN": { UP: 0, DN: 1 },
+//   "QLN-TVC": { UP: 0, DN: 1 },
+//   "TVC-NCJ": { UP: 0, DN: 1, Single: 2 },
+//   "NCJ-TEN": { UP: 0, DN: 1 },
+//   "NCJ-CAPE": { UP: 0, DN: 1 },
+// };
 (line_data = {
   "AJJ-RU": { UP: 0, DN: 1 },
   "MAS-AJJ": { "Up slow": 0, "Down slow": 1, "Up fast": 0, "Down fast": 1 },
@@ -4451,6 +4452,16 @@ section_data = {
   "NGT-VLNK": { Single: 2 },
   "TVR- KKDI": { Single: 2 },
   "TTP- AGX": { Single: 2 },
+
+  "SRR-CHTS": { UP: 0, DN: 1, Single: 2 },
+  "TCR-GUV": { UP: 0, DN: 1, Single: 2 },
+  "ERS-KTYM-KYJ": { UP: 0, DN: 1, Single: 2 },
+  "ERS-ALLP-KYJ": { UP: 0, DN: 1, Single: 2 },
+  "KYJ-QLN": { UP: 0, DN: 1 },
+  "QLN-TVC": { UP: 0, DN: 1 },
+  "TVC-NCJ": { UP: 0, DN: 1, Single: 2 },
+  "NCJ-TEN": { UP: 0, DN: 1 },
+  "NCJ-CAPE": { UP: 0, DN: 1 },
 }),
   (road_line_data = {
 
