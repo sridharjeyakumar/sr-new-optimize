@@ -730,7 +730,6 @@ function nonEngOptii(nonEnggRequests, corridorData, engOptiData, section_data, l
 
 const optii = async (requestData, corridorData) => {
     try {
-
         const validLines = [
             "dn",
             "up",
@@ -748,57 +747,80 @@ const optii = async (requestData, corridorData) => {
         ];
 
         requestData.forEach(item => {
-            const temp = item?.selectedLine && item.selectedLine.toLowerCase()
+            const temp = item?.selectedLine?.toLowerCase();
             if (!validLines.includes(temp)) {
-                var data;
-                data = road_line_data[item["selectedSection"]][item["missionBlock"]]
-                if (!data) {
-                    data = line_data[item["selectedSection"]]
+                let data = null;
+
+                // safe access road_line_data
+                if (
+                    road_line_data[item["selectedSection"]] &&
+                    road_line_data[item["selectedSection"]][item["missionBlock"]]
+                ) {
+                    data = road_line_data[item["selectedSection"]][item["missionBlock"]];
                 }
-                if (item['selectedStream'] === 'Upstream') {
-                    if ('UP line' in data) {
-                        item['selectedLine'] = 'UP line'
-                    }
-                    else if ('UP slow' in data) {
-                        item['selectedLine'] = 'UP slow'
-                    }
-                    else if ('UP' in data) {
-                        item['selectedLine'] = 'UP'
-                    }
-                } else if (item['selectedStream'] === 'Downstream') {
-                    if ('Down Slow' in data) {
-                        item['selectedLine'] = 'Down Slow'
-                    }
-                    else if ('Down line' in data) {
-                        item['selectedLine'] = 'Down line'
-                    }
-                    else if ('DN' in data) {
-                        item['selectedLine'] = 'DN'
+
+                // fallback to line_data
+                if (!data && line_data[item["selectedSection"]]) {
+                    data = line_data[item["selectedSection"]];
+                }
+
+                if (data) {
+                    if (item['selectedStream'] === 'Upstream') {
+                        if ('UP line' in data) {
+                            item['selectedLine'] = 'UP line';
+                        } else if ('UP slow' in data) {
+                            item['selectedLine'] = 'UP slow';
+                        } else if ('UP' in data) {
+                            item['selectedLine'] = 'UP';
+                        }
+                    } else if (item['selectedStream'] === 'Downstream') {
+                        if ('Down Slow' in data) {
+                            item['selectedLine'] = 'Down Slow';
+                        } else if ('Down line' in data) {
+                            item['selectedLine'] = 'Down line';
+                        } else if ('DN' in data) {
+                            item['selectedLine'] = 'DN';
+                        }
+                    } else {
+                        if ('UP line' in data) {
+                            item['selectedLine'] = 'UP line';
+                        } else if ('Up fast' in data) {
+                            item['selectedLine'] = 'UP fast';
+                        } else {
+                            item['selectedLine'] = 'UP';
+                        }
                     }
                 } else {
-
-                    if ('UP line' in data) {
-                        item['selectedLine'] = 'UP line'
-                    } else if ("Up fast" in data) {
-                        item['selectedLine'] = 'UP fast'
-                    } else {
-                        item['selectedLine'] = 'UP'
-                    }
+                    console.warn(
+                        `⚠️ No mapping found for section=${item.selectedSection}, block=${item.missionBlock}`
+                    );
+                    item['selectedLine'] = 'UP'; // safe fallback
                 }
             }
         });
 
-        const enggRequests = requestData.filter(item => item.selectedDepartment === 'ENGG');
-        const nonEnggRequests = requestData.filter(item => item.selectedDepartment !== 'ENGG');
+        const enggRequests = requestData.filter(
+            item => item.selectedDepartment === 'ENGG'
+        );
+        const nonEnggRequests = requestData.filter(
+            item => item.selectedDepartment !== 'ENGG'
+        );
 
         const engOptiData = engOptii(enggRequests, corridorData);
-        const nonEngOptiData = nonEngOptii(nonEnggRequests, corridorData, engOptiData, section_data, line_data);
-        const optiiData = [...engOptiData, ...nonEngOptiData];
-        return optiiData;
+        const nonEngOptiData = nonEngOptii(
+            nonEnggRequests,
+            corridorData,
+            engOptiData,
+            section_data,
+            line_data
+        );
+
+        return [...engOptiData, ...nonEngOptiData];
     } catch (error) {
         throw new Error(`Optimization failed: ${error.message}`);
     }
 };
+
 
 module.exports = { optii };
 
