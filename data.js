@@ -4412,6 +4412,7 @@ section_data = {
   },
   "AJJ-CGL": { "UP line": 0, "Down line": 1 },
   "KPD-JTJ": { "UP line": 0, "Down line": 1 },
+"MSB-VLCY":{"UP line": 0, "Down line": 1 },
 
   "TPJ-DG": { UP: 0, DN: 1 },
   "DG-MDU": { UP: 0, DN: 1 },
@@ -5540,7 +5541,24 @@ section_data = {
         "Down line": 1,
       },
     },
-
+"MSB-VLCY":{
+  "MSB-YD": {
+        "UP line": 0,
+        "Down line": 1,
+      },
+"MCPK-YD": {
+        "UP line": 0,
+        "Down line": 1,
+      },
+"MTMY-YD": {
+        "UP line": 0,
+        "Down line": 1,
+      },
+"VLCY-YD": {
+        "UP line": 0,
+        "Down line": 1,
+      },
+},
 
     "PTJ-SRR": {
         "MDKI-YD": {"UP": 0, "DN": 1, "A": 2, "B": 2},
