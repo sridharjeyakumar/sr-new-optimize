@@ -251,9 +251,26 @@ const findCorridorBlock = (enggRequests, corridorData) => {
                         data['optimisedTimeFrom'] = formatTime(corridorTo - duration);
                         corridorTo = corridorTo - duration
                     } else {
-                        data['optimisedTimeFrom'] = formatTime(corridorFrom);
-                        data['optimisedTimeTo'] = formatTime(corridorFrom + duration);
-                        corridorFrom = corridorFrom + duration;
+                        // data['optimisedTimeFrom'] = formatTime(corridorFrom);
+                        // data['optimisedTimeTo'] = formatTime(corridorFrom + duration);
+                        // corridorFrom = corridorFrom + duration;
+
+
+                       
+    data['optimisedTimeFrom'] = formatTime(corridorFrom);
+
+    let optimisedTimeToMinutes = corridorFrom + duration;
+
+    // If negative, add 24 hours
+    if (optimisedTimeToMinutes < 0) {
+        optimisedTimeToMinutes += 24 * 60;
+    }
+
+    data['optimisedTimeTo'] = formatTime(optimisedTimeToMinutes);
+
+    corridorFrom = corridorFrom + duration;
+
+
                     }
                 });
             }
