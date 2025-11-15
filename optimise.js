@@ -34,12 +34,23 @@ const parseTime = (time) => {
     return hours * 60 + minutes;
 };
 
+// const formatTime = (minutes) => {
+//     let hours = Math.floor(minutes / 60);
+//     hours = hours >= 24 ? hours - 24 : hours;
+//     const mins = (minutes % 60).toString().padStart(2, '0');
+//     return `${hours.toString().padStart(2, '0')}:${mins}`;
+// };
 const formatTime = (minutes) => {
+    minutes = Math.round(minutes);
+
     let hours = Math.floor(minutes / 60);
-    hours = hours >= 24 ? hours - 24 : hours;
-    const mins = (minutes % 60).toString().padStart(2, '0');
-    return `${hours.toString().padStart(2, '0')}:${mins}`;
+    if (hours >= 24) hours -= 24;
+
+    const mins = (minutes % 60).toString().padStart(2, "0");
+
+    return `${hours.toString().padStart(2, "0")}:${mins}`;
 };
+
 
 const groupBy = (data) => {
     return Object.values(data.reduce((acc, item) => {
