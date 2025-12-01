@@ -108,9 +108,9 @@ const findCorridorBlock = (enggRequests, corridorData) => {
         try {
             for (let i = 0; i < enggRequests.length; i++) {
                 let matchingCorridors = corridorData.filter(corridor => {
-                    if (enggRequests[i][0]['otherLinesAffected'] && enggRequests[i][0]['otherLinesAffected'].trim() !== '' && !enggRequests[i][0]['otherLinesAffected'].toLowerCase().includes('rd')) {
+                    if (enggRequests[i][0]['otherAffectedLine'] && enggRequests[i][0]['otherAffectedLine'].trim() !== '' && !enggRequests[i][0]['otherAffectedLine'].toLowerCase().includes('rd')) {
                         let selectedLine = enggRequests[i][0]['selectedLine'].trim().toLowerCase();
-                        let otherLinesAffected = enggRequests[i][0]['otherLinesAffected']?.trim().toLowerCase();
+                        let otherLinesAffected = enggRequests[i][0]['otherAffectedLine']?.trim().toLowerCase();
                         let missionBlock = enggRequests[i][0]['missionBlock'].trim().toLowerCase();
 
                         let [firstLine, secondLine] = [selectedLine, otherLinesAffected].sort();
@@ -122,8 +122,10 @@ const findCorridorBlock = (enggRequests, corridorData) => {
                     } else {
                         return (
                             enggRequests[i][0]['missionBlock'].trim().toLowerCase() === corridor['Section/ station'].trim().toLowerCase() &&
+                            enggRequests[i][0]['selectedSection'].trim().toLowerCase() === corridor['section'].trim().toLowerCase() &&
+
                             enggRequests[i][0]['selectedLine'].trim().toLowerCase() === corridor['Line'].trim().toLowerCase() &&
-                            'NULL' === corridor['Other Line Affected']
+                            'NULL' === corridor['Otheraffectedlines']
                         );
                     }
                 });
@@ -195,10 +197,10 @@ const findCorridorBlock = (enggRequests, corridorData) => {
 
         enggRequests.map((item) => {
             let matchingCorridors = corridorData.filter(corridor => {
-                if (item[0]['otherLinesAffected'] && item[0]['otherLinesAffected'].trim() !== '' && !item[0]['otherLinesAffected'].toLowerCase().includes('rd')) {
+                if (item[0]['otherAffectedLine'] && item[0]['otherAffectedLine'].trim() !== '' && !item[0]['otherAffectedLine'].toLowerCase().includes('rd')) {
 
                     let selectedLine = item[0]['selectedLine'].trim().toLowerCase();
-                    let otherLinesAffected = item[0]['otherLinesAffected']?.trim().toLowerCase();
+                    let otherLinesAffected = item[0]['otherAffectedLine']?.trim().toLowerCase();
                     let missionBlock = item[0]['missionBlock'].trim().toLowerCase();
 
                     let [firstLine, secondLine] = [selectedLine, otherLinesAffected].sort();
@@ -211,7 +213,7 @@ const findCorridorBlock = (enggRequests, corridorData) => {
                     return (
                         item[0]['missionBlock'].trim().toLowerCase() === corridor['Section/ station'].trim().toLowerCase() &&
                         item[0]['selectedLine'].trim().toLowerCase() === corridor['Line'].trim().toLowerCase() &&
-                        'NULL' === corridor['Other Line Affected']
+                        'NULL' === corridor['Otheraffectedlines']
                     );
                 }
             });
@@ -407,9 +409,9 @@ function findShadowNon(groupedNonEnggRequests, engOptiData, corridorData, sectio
             // });
 
             let matchingCorridors = corridorData.filter(corridor => {
-                if (item[0]['otherLinesAffected'] && item[0]['otherLinesAffected'].trim() !== '' && !item[0]['otherLinesAffected'].toLowerCase().includes('rd')) {
+                if (item[0]['otherAffectedLine'] && item[0]['otherAffectedLine'].trim() !== '' && !item[0]['otherAffectedLine'].toLowerCase().includes('rd')) {
                     let selectedLine = item[0]['selectedLine'].trim().toLowerCase();
-                    let otherLinesAffected = item[0]['otherLinesAffected']?.trim().toLowerCase();
+                    let otherLinesAffected = item[0]['otherAffectedLine']?.trim().toLowerCase();
                     let missionBlock = item[0]['missionBlock'].trim().toLowerCase();
 
                     let [firstLine, secondLine] = [selectedLine, otherLinesAffected].sort();
@@ -417,14 +419,14 @@ function findShadowNon(groupedNonEnggRequests, engOptiData, corridorData, sectio
                     return (
                         missionBlock === corridor['Section/ station'].trim().toLowerCase() &&
                         firstLine === corridor['Line'].trim().toLowerCase() &&
-                        secondLine === corridor['Other Line Affected'].trim().toLowerCase()
+                        secondLine === corridor['Otheraffectedlines'].trim().toLowerCase()
                     );
                 } else {
 
                     return (
                         item[0]['missionBlock'].trim().toLowerCase() === corridor['Section/ station'].trim().toLowerCase() &&
                         item[0]['selectedLine'].trim().toLowerCase() === corridor['Line'].trim().toLowerCase() &&
-                        'NULL' === corridor['Other Line Affected']
+                        'NULL' === corridor['Otheraffectedlines']
                     );
                 }
             });
