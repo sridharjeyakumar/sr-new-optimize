@@ -116,16 +116,16 @@ const findCorridorBlock = (enggRequests, corridorData) => {
                         let [firstLine, secondLine] = [selectedLine, otherLinesAffected].sort();
                         return (
                             missionBlock === corridor['Section/ station'].trim().toLowerCase() &&
-                            firstLine === corridor['Line'].trim().toLowerCase() &&
-                            secondLine === corridor['Line'].trim().toLowerCase()
+                            firstLine === corridor['Line'].trim().toLowerCase() 
+                            // &&secondLine === corridor['Line'].trim().toLowerCase()
                         );
                     } else {
                         return (
                             enggRequests[i][0]['missionBlock'].trim().toLowerCase() === corridor['Section/ station'].trim().toLowerCase() &&
                             enggRequests[i][0]['selectedSection'].trim().toLowerCase() === corridor['section'].trim().toLowerCase() &&
 
-                            enggRequests[i][0]['selectedLine'].trim().toLowerCase() === corridor['Line'].trim().toLowerCase() &&
-                            'NULL' === corridor['Otheraffectedlines']
+                            enggRequests[i][0]['selectedLine'].trim().toLowerCase() === corridor['Line'].trim().toLowerCase() 
+                            // && 'NULL' === corridor['Otheraffectedlines']
                         );
                     }
                 });
